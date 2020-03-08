@@ -6,10 +6,12 @@ import {
   Text,
   TouchableWithoutFeedback,
   Keyboard,
+  Alert,
 } from 'react-native';
 import Card from '../Components/Card';
 import Colors from '../Constants/Colors';
 import Input from '../Components/Input';
+import NumberContainer from '../Components/NumberContainer';
 
 const StartGameScreen = () => {
   const [enterValue, setEnteredValue] = useState('');
@@ -24,16 +26,33 @@ const StartGameScreen = () => {
   };
   const confirmInputHandler = () => {
     const chooseNumber = parseInt(enterValue);
-    if (chooseNumber == NaN || chooseNumber <= 0 || chooseNumber > 99) {
-      return;
+    if (isNaN(chooseNumber) || chooseNumber <= 0 || chooseNumber > 99) {
+      Alert.alert(
+        'Invalid Number!',
+        'Number has to be a number between 1 to 99.',
+        [
+          {
+            text: 'ok',
+            style: 'destructive',
+            onPress: resetInputHandler,
+          },
+        ],
+      );
     }
     setConfirmed(true);
     setSelectedNumber(chooseNumber);
     setEnteredValue('');
+    Keyboard.dismiss();
   };
   let confirmedOutput;
   if (confirmed) {
-    confirmedOutput = <Text>Selected Number : {selectedNumber}</Text>;
+    confirmedOutput = (
+      <Card style={styles.outputCont}>
+        <Text>You selected</Text>
+        <NumberContainer>{selectedNumber}</NumberContainer>
+        <Button title="Start Game" />
+      </Card>
+    );
   }
 
   return (
@@ -111,6 +130,30 @@ const styles = StyleSheet.create({
     width: 50,
     height: 40,
     textAlign: 'center',
+  },
+  outputViewStyle: {
+    width: 50,
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 2,
+    borderColor: Colors.accent,
+    borderRadius: 5,
+  },
+  outputCont: {
+    width: '80%',
+    alignItems: 'center',
+    borderColor: Colors.primaryColor,
+    borderWidth: 1,
+    padding: 16,
+    marginTop: 20,
+    borderRadius: 5,
+    shadowColor: 'black',
+    shadowOffset: {width: 0, height: 2},
+    shadowRadius: 6,
+    shadowOpacity: 0.26,
+    elevation: 5,
+    backgroundColor: 'white',
   },
 });
 
