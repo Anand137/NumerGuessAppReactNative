@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import Colors from '../Constants/Colors';
+import {isRequired} from 'react-native/Libraries/DeprecatedPropTypes/DeprecatedColorPropType';
 
 const Header = props => {
   return (
